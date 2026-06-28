@@ -52,3 +52,14 @@ def delete_task(task_id: int, db: Session = Depends(get_db)):
     db.delete(task)
     db.commit()
     return {"message": "Task deleted!"}
+@app.put("/tasks/{task_id}", response_model=TaskResponse)
+def update_task(task_id: int, updated_task: Task, db: Session = Depends(get_db)):
+    task = db.query(TaskModel).filter(TaskModel.id == task_id).first()
+    if not task:
+        raise HTTPException(status_code=404, detail="Task not found")
+    task.title = updated_task.title
+    task.description = updated_task.description
+    task.done = updated_task.done
+    db.commit()
+    db.refresh(task)
+    return task
