@@ -1,23 +1,51 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from typing import List, Optional
 
-app = FastAPI()
+app = FastAPI(title="Mahashankh Task Manager API")
 
-@app.get("/")
-def home():
-    return {"message": "Welcome to Mahashankh Internship API!"}
-@app.get("/status")
-def status():
-    return {"status": "running", "version": "1.0"}
+# Temporary storage (list)
+tasks = []
+task_id_counter = 1
 
-@app.get("/intern")
-def intern_info():
-    return {"name": "sujakko chakma ", "company": "Mahashankh Design and Technology", "track": "AIML Engineering"}
 class Task(BaseModel):
     title: str
     description: str
     done: bool = False
 
-@app.post("/tasks")
+class TaskResponse(BaseModel):
+    id: int
+    title: str
+    description: str
+    done: bool
+
+@app.get("/")
+def home():
+    return {"message": "Welcome to Mahashankh Task Manager API!"}
+
+@app.post("/tasks", response_model=TaskResponse)
 def create_task(task: Task):
-    return {"message": "Task created!", "task": task}
+    global task_id_counter
+    new_task = {"id": task_id_counter, "title": task.title, "description": task.description, "done": task.done}
+    tasks.append(new_task)
+    task_id_counter += 1
+    return new_task
+
+@app.get("/tasks", response_model=List[TaskResponse])
+def get_all_tasks():
+    return tasks
+
+@app.get("/tasks/{task_id}", response_model=TaskResponse)
+def get_task(task_id: int):
+    for task in tasks:
+        if task["id"] == task_id:
+            return task
+    raise HTTPException(status_code=404, detail="Task not found")
+
+@app.delete("/tasks/{task_id}")
+def delete_task(task_id: int):
+    for i, task in enumerate(tasks):
+        if task["id"] == task_id:
+            tasks.pop(i)
+            return {"message": "Task deleted!"}
+    raise HTTPException(status_code=404, detail="Task not found")
