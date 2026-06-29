@@ -1,30 +1,45 @@
 # Mahashankh Internship - AIML Engineering
 
-A Task Manager API with AI-powered priority prediction built during my internship at Mahashankh Design and Technology.
+A complete AI-powered Task Manager built during my internship at Mahashankh Design and Technology.
 
-## Features
+## Projects Completed
+
+### Project 1 - Core AIML Framework ✅
 - Full CRUD Task Manager API
 - SQLite Database with SQLAlchemy
-- AI Priority Prediction using Machine Learning
-- REST API with FastAPI and Swagger docs
+- AI Priority Prediction (Machine Learning)
+- AI Sentiment Analysis
+
+### Project 2 - Task Orchestration Hub ✅
+- Background Task Runner
+- Retry Logic on failure
+- Pipeline (chain tasks together)
+- Task Logging & Monitoring
+
+### Project 3 - Analytics Dashboard ✅
+- Live task statistics
+- AI-powered priority breakdown
+- Completion rate tracking
+- AI insights and recommendations
 
 ## Tech Stack
-- Python 3.13
-- FastAPI
-- SQLAlchemy
-- SQLite
-- Scikit-learn
-- Uvicorn
+- Python 3.13, FastAPI, SQLAlchemy, SQLite
+- Scikit-learn (AI/ML)
+- APScheduler, BackgroundTasks
+- Git & GitHub
 
-## How to Run
-1. Clone the repository
-2. Create virtual environment: `python -m venv venv`
-3. Activate: `venv\Scripts\activate`
-4. Install packages: `pip install -r requirements.txt`
-5. Run: `uvicorn main:app --reload`
-6. Open: http://127.0.0.1:8000/docs
+## API Endpoints (12 total)
+- GET / — Home
+- GET/POST /tasks — Task CRUD
+- PUT/DELETE /tasks/{id} — Update/Delete
+- POST /predict-priority — AI Priority
+- POST /analyze — AI Sentiment
+- POST /run-task — Background Task
+- POST /run-pipeline — Pipeline
+- GET /analytics — Statistics
+- GET /analytics/summary — AI Insights
 
 ## Developer
 **Sujakko Chakma**
-Intern - AIML Engineering Track
+AIML Engineering Intern
 Mahashankh Design and Technology
