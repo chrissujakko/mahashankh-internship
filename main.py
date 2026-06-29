@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from typing import List
 from database import Base, engine, get_db, TaskModel
 from ml_model import predict_priority, analyze_sentiment
+from pipeline import run_pipeline
 
 Base.metadata.create_all(bind=engine)
 
@@ -84,3 +85,12 @@ def analyze_task(task: Task):
 def trigger_task(task_name: str, background_tasks: BackgroundTasks):
     background_tasks.add_task(run_with_retry, task_name, {"triggered_at": "now"})
     return {"message": f"Task '{task_name}' started in background!"}
+@app.post("/run-pipeline")
+def trigger_pipeline(pipeline_name: str, background_tasks: BackgroundTasks):
+    tasks = [
+        {"name": "validate_data", "data": {}},
+        {"name": "process_data", "data": {}},
+        {"name": "save_results", "data": {}}
+    ]
+    background_tasks.add_task(run_pipeline, pipeline_name, tasks)
+    return {"message": f"Pipeline '{pipeline_name}' started in background!"}
