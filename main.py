@@ -106,3 +106,29 @@ def get_analytics(db: Session = Depends(get_db)):
         "pending_tasks": pending_tasks,
         "completion_rate": f"{(done_tasks/total_tasks*100) if total_tasks > 0 else 0:.1f}%"
     }
+@app.get("/analytics/summary")
+def get_summary(db: Session = Depends(get_db)):
+    tasks = db.query(TaskModel).all()
+    
+    high_priority = 0
+    medium_priority = 0
+    low_priority = 0
+    
+    for task in tasks:
+        priority = predict_priority(task.title)
+        if priority == "high":
+            high_priority += 1
+        elif priority == "medium":
+            medium_priority += 1
+        else:
+            low_priority += 1
+    
+    return {
+        "total_tasks": len(tasks),
+        "priority_breakdown": {
+            "high": high_priority,
+            "medium": medium_priority,
+            "low": low_priority
+        },
+        "ai_insights": f"You have {high_priority} high priority tasks that need attention!"
+    }
