@@ -94,3 +94,15 @@ def trigger_pipeline(pipeline_name: str, background_tasks: BackgroundTasks):
     ]
     background_tasks.add_task(run_pipeline, pipeline_name, tasks)
     return {"message": f"Pipeline '{pipeline_name}' started in background!"}
+@app.get("/analytics")
+def get_analytics(db: Session = Depends(get_db)):
+    total_tasks = db.query(TaskModel).count()
+    done_tasks = db.query(TaskModel).filter(TaskModel.done == True).count()
+    pending_tasks = db.query(TaskModel).filter(TaskModel.done == False).count()
+    
+    return {
+        "total_tasks": total_tasks,
+        "done_tasks": done_tasks,
+        "pending_tasks": pending_tasks,
+        "completion_rate": f"{(done_tasks/total_tasks*100) if total_tasks > 0 else 0:.1f}%"
+    }
