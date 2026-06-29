@@ -1,5 +1,6 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends, BackgroundTasks
 from pydantic import BaseModel
+from task_runner import run_with_retry
 from sqlalchemy.orm import Session
 from typing import List
 from database import Base, engine, get_db, TaskModel
@@ -78,3 +79,8 @@ def analyze_task(task: Task):
         "predicted_priority": priority,
         "sentiment": sentiment
     }
+
+@app.post("/run-task")
+def trigger_task(task_name: str, background_tasks: BackgroundTasks):
+    background_tasks.add_task(run_with_retry, task_name, {"triggered_at": "now"})
+    return {"message": f"Task '{task_name}' started in background!"}
