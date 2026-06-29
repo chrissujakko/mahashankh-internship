@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from typing import List
 from database import Base, engine, get_db, TaskModel
-from ml_model import predict_priority
+from ml_model import predict_priority, analyze_sentiment
 
 Base.metadata.create_all(bind=engine)
 
@@ -68,3 +68,13 @@ def update_task(task_id: int, updated_task: Task, db: Session = Depends(get_db))
 def get_priority(task: Task):
     priority = predict_priority(task.title)
     return {"title": task.title, "predicted_priority": priority}
+@app.post("/analyze")
+def analyze_task(task: Task):
+    priority = predict_priority(task.title)
+    sentiment = analyze_sentiment(task.description)
+    return {
+        "title": task.title,
+        "description": task.description,
+        "predicted_priority": priority,
+        "sentiment": sentiment
+    }

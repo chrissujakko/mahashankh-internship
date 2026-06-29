@@ -32,3 +32,17 @@ def predict_priority(task_title: str) -> str:
     X_new = vectorizer.transform([task_title])
     prediction = model.predict(X_new)
     return prediction[0]
+def analyze_sentiment(text: str) -> str:
+    positive_words = ["complete", "finish", "done", "success", "great", "excellent", "good", "happy", "achieve"]
+    negative_words = ["bug", "error", "fail", "broken", "crash", "urgent", "critical", "problem", "fix"]
+    
+    text_lower = text.lower()
+    pos_count = sum(1 for word in positive_words if word in text_lower)
+    neg_count = sum(1 for word in negative_words if word in text_lower)
+    
+    if pos_count > neg_count:
+        return "positive"
+    elif neg_count > pos_count:
+        return "negative"
+    else:
+        return "neutral"
