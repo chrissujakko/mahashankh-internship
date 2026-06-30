@@ -22,6 +22,11 @@ A complete AI-powered Task Manager built during my internship at Mahashankh Desi
 - Completion rate tracking
 - AI insights and recommendations
 
+### Capstone - Smart Task Processor ✅
+- Combines AI analysis, pipeline processing, and intelligent recommendations
+- Single endpoint that demonstrates full system integration
+- Real-time priority and sentiment-based decision making
+
 ## Tech Stack
 - Python 3.13, FastAPI, SQLAlchemy, SQLite
 - Scikit-learn (AI/ML)
@@ -38,6 +43,7 @@ A complete AI-powered Task Manager built during my internship at Mahashankh Desi
 - POST /run-pipeline — Pipeline
 - GET /analytics — Statistics
 - GET /analytics/summary — AI Insights
+- POST /capstone/smart-process — AI-Powered Smart Processing
 
 ## Developer
 **Sujakko Chakma**
