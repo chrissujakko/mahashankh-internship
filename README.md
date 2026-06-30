@@ -33,7 +33,7 @@ A complete AI-powered Task Manager built during my internship at Mahashankh Desi
 - APScheduler, BackgroundTasks
 - Git & GitHub
 
-## API Endpoints (12 total)
+## API Endpoints (13 total)
 - GET / — Home
 - GET/POST /tasks — Task CRUD
 - PUT/DELETE /tasks/{id} — Update/Delete
