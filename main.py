@@ -6,6 +6,7 @@ from typing import List
 from database import Base, engine, get_db, TaskModel
 from ml_model import predict_priority, analyze_sentiment
 from pipeline import run_pipeline
+from capstone import smart_task_processor
 
 Base.metadata.create_all(bind=engine)
 
@@ -132,3 +133,7 @@ def get_summary(db: Session = Depends(get_db)):
         },
         "ai_insights": f"You have {high_priority} high priority tasks that need attention!"
     }
+@app.post("/capstone/smart-process")
+def smart_process(task: Task):
+    result = smart_task_processor(task.title, task.description)
+    return result
