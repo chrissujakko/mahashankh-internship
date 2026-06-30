@@ -1,6 +1,7 @@
 # Mahashankh Internship - AIML Engineering
 
 A complete AI-powered Task Manager built during my internship at Mahashankh Design and Technology.
+![API Screenshot](swagger-screenshot.png)
 
 ## Projects Completed
 
